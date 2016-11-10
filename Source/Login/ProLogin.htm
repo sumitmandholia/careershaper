@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>ProLogin</title>         
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- Bootstrap -->
+        <link href="../../css/bootstrap.min.css" rel="stylesheet" media="screen">
+        <link href="../../css/bootstrap-theme.min.css" rel="stylesheet" media="screen">
+
+        <!-- Styles -->
+        <link href="../../css/main.css" rel="stylesheet" type="text/css">
+        <link href="../../css/dashboard.css" rel="stylesheet" type="text/css">
+        <link href="../../css/responsive.css" rel="stylesheet" type="text/css">
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,500,600,700' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="../../css/jquery-ui.css" />
+
+        <!-- SCRIPTS -->
+        <script type="text/javascript">
+            var global_base_url = "http://prologin.patchesoft.com/";
+        </script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+
+        <link rel="stylesheet" type="text/css" href="../../css/datatables.min.css"/>
+        <script type="text/javascript" src="../../js/datatables.min.js"></script>
+
+        <script type="text/javascript">
+            $.widget.bridge('uitooltip', $.ui.tooltip);
+        </script>
+        <script src="../../js/bootstrap.min.js"></script>
+
+
+        <!-- Favicon: http://realfavicongenerator.net -->
+        <link rel="apple-touch-icon" sizes="57x57" href="../../images/favicon/apple-touch-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="../../images/favicon/apple-touch-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="../../images/favicon/apple-touch-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="../../images/favicon/apple-touch-icon-76x76.png">
+        <link rel="icon" type="image/png" href="../../images/favicon/favicon-32x32.png" sizes="32x32">
+        <link rel="icon" type="image/png" href="../../images/favicon/favicon-16x16.png" sizes="16x16">
+        <link rel="manifest" href="../../images/favicon/manifest.json">
+        <link rel="mask-icon" href="../../images/favicon/safari-pinned-tab.svg" color="#5bbad5">
+        <link rel="shortcut icon" href="../../images/favicon/favicon.ico">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="msapplication-config" content="../../images/favicon/browserconfig.xml">
+        <meta name="theme-color" content="#ffffff">
+
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+          <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+        <script type="text/javascript">
+            $.widget.bridge('uitooltip', $.ui.tooltip);
+        </script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('[data-toggle="tooltip"]').tooltip();
+            });
+        </script>
+
+        <!-- CODE INCLUDES -->
+
+    </head>
+    <body>
+
+        <nav class="navbar navbar-header2 navbar-inverse navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="http://prologin.patchesoft.com/" title="ProLogin"><img src="http://prologin.patchesoft.com/uploads/logo.png" width="123" height="32"></a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="user_bit"><img src="http://prologin.patchesoft.com/uploads/default.png" class="user_avatar user_icon"> <a href="http://prologin.patchesoft.com/user_settings">admin</a></li>
+                        <li><a href="http://prologin.patchesoft.com/login/logout/b5db6fa275e079982ca1f0f5a80a2cec">Logout</a></li>
+                    </ul>
+
+                </div>
+            </div>
+        </nav>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-3 col-md-2 sidebar">
+                    <ul class="newnav nav nav-sidebar">
+                        <li id="admin_sb">
+                            <a data-toggle="collapse" data-parent="#admin_sb" href="#admin_sb_c" class="collapsed active" >
+                                <span class="glyphicon glyphicon-wrench sidebar-icon"></span> Admin Panel                  <span class="plus-sidebar"><span class="glyphicon glyphicon-chevron-down"></span></span>
+                            </a>
+                            <div id="admin_sb_c" class="panel-collapse collapse sidebar-links-inner in">
+                                <ul class="inner-sidebar-links">
+                                    <li class=""><a href="http://prologin.patchesoft.com/admin/settings"><span class="glyphicon glyphicon-arrow-right admin-sb-link"></span> Global Settings</a></li>
+                                    <li class=""><a href="http://prologin.patchesoft.com/admin/social_settings"><span class="glyphicon glyphicon-arrow-right admin-sb-link"></span> Social Settings</a></li>
+                                    <li class="active"><a href="http://prologin.patchesoft.com/admin/members"><span class="glyphicon glyphicon-arrow-right admin-sb-link"></span> Manage Members</a></li>
+                                    <li class=""><a href="http://prologin.patchesoft.com/admin/custom_fields"><span class="glyphicon glyphicon-arrow-right admin-sb-link"></span> Custom Fields</a></li>
+                                    <li class=""><a href="http://prologin.patchesoft.com/admin/user_roles"><span class="glyphicon glyphicon-arrow-right admin-sb-link"></span> User Roles</a></li>
+                                    <li class=""><a href="http://prologin.patchesoft.com/admin/user_groups"><span class="glyphicon glyphicon-arrow-right admin-sb-link"></span> User Groups</a></li>
+                                    <li class=""><a href="http://prologin.patchesoft.com/admin/ipblock"><span class="glyphicon glyphicon-arrow-right admin-sb-link"></span> IP Blocking</a></li>
+                                    <li class=""><a href="http://prologin.patchesoft.com/admin/email_templates"><span class="glyphicon glyphicon-arrow-right admin-sb-link"></span> Email Templates</a></li>
+                                    <li class=""><a href="http://prologin.patchesoft.com/admin/email_members"><span class="glyphicon glyphicon-arrow-right admin-sb-link"></span> Email Members</a></li>
+                                    <li class=""><a href="http://prologin.patchesoft.com/admin/payment_settings"><span class="glyphicon glyphicon-arrow-right admin-sb-link"></span> Payment Settings</a></li>
+                                    <li class=""><a href="http://prologin.patchesoft.com/admin/payment_plans"><span class="glyphicon glyphicon-arrow-right admin-sb-link"></span> Payment Plans</a></li>
+                                    <li class=""><a href="http://prologin.patchesoft.com/admin/payment_logs"><span class="glyphicon glyphicon-arrow-right admin-sb-link"></span> Payment Logs</a></li>
+                                    <li class=""><a href="http://prologin.patchesoft.com/admin/premium_users"><span class="glyphicon glyphicon-arrow-right admin-sb-link"></span> Premium Users</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class=""><a href="http://prologin.patchesoft.com/"><span class="glyphicon glyphicon-home sidebar-icon"></span> Overview <span class="sr-only">(current)</span></a></li>
+                        <li class=""><a href="http://prologin.patchesoft.com/members"><span class="glyphicon glyphicon-user sidebar-icon"></span> Members</a></li>
+                        <li class=""><a href="http://prologin.patchesoft.com/user_settings"><span class="glyphicon glyphicon-cog sidebar-icon"></span> Settings</a></li>
+                        <li class=""><a href="http://prologin.patchesoft.com/funds"><span class="glyphicon glyphicon-piggy-bank sidebar-icon"></span> Add Funds</a></li>
+                        <li class=""><a href="http://prologin.patchesoft.com/funds/plans"><span class="glyphicon glyphicon-list-alt sidebar-icon"></span> Premium Plans</a></li>
+                        <li class=""><a href="http://prologin.patchesoft.com/test"><span class="glyphicon glyphicon-heart sidebar-icon"></span> Full Page</a></li>
+                        <li id="restricted_sb">
+                            <a data-toggle="collapse" data-parent="#restricted_sb" href="#restricted_sb_c" class="collapsed " >
+                                <span class="glyphicon glyphicon-lock sidebar-icon"></span> Restricted Pages                  <span class="plus-sidebar"><span class="glyphicon glyphicon-chevron-down"></span></span>
+                            </a>
+                            <div id="restricted_sb_c" class="panel-collapse collapse sidebar-links-inner ">
+                                <ul class="inner-sidebar-links">
+                                    <li class=""><a href="http://prologin.patchesoft.com/test/restricted_admin"><span class="glyphicon glyphicon-wrench"></span> Admin Page <span class="sr-only">(current)</span></a></li>
+                                    <li class=""><a href="http://prologin.patchesoft.com/test/restricted_group"><span class="glyphicon glyphicon-arrow-right admin-sb-link"></span> Group Page</a></li>
+                                    <li class=""><a href="http://prologin.patchesoft.com/test/restricted_user"><span class="glyphicon glyphicon-arrow-right admin-sb-link"></span> User Page</a></li>
+                                    <li class=""><a href="http://prologin.patchesoft.com/test/restricted_premium"><span class="glyphicon glyphicon-arrow-right admin-sb-link"></span> Premium Page</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                    <div id="responsive-menu-links">
+                        <select name='link' OnChange="window.location.href = $(this).val();" class="form-control">
+                            <option value='http://prologin.patchesoft.com/'>Overview</option>
+                            <option value='http://prologin.patchesoft.com/members'>Members</option>
+                            <option value='http://prologin.patchesoft.com/user_settings'>Settings</option>
+                            <option value='http://prologin.patchesoft.com/admin/settings'>Global Settings</option>
+                            <option value='http://prologin.patchesoft.com/admin/social_settings'>Social Settings</option>
+                            <option value='http://prologin.patchesoft.com/admin/members'>Manage Members</option>
+                            <option value='http://prologin.patchesoft.com/admin/user_roles'>User Roles</option>
+                            <option value='http://prologin.patchesoft.com/admin/user_groups'>User Groups</option>
+                            <option value='http://prologin.patchesoft.com/admin/ipblock'>IP Blocking</option>
+                            <option value='http://prologin.patchesoft.com/admin/email_templates'>Email Templates</option>
+                            <option value='http://prologin.patchesoft.com/admin/email_members'>Email Members</option>
+                            <option value='http://prologin.patchesoft.com/admin/payment_settings'>Payment Settings</option>
+                            <option value='http://prologin.patchesoft.com/admin/payment_plans'>Payment Plans</option>
+                            <option value='http://prologin.patchesoft.com/admin/payment_logs'>Payment Logs</option>
+                            <option value='http://prologin.patchesoft.com/admin/premium_users'>Premium Users</option>
+                            <option value='http://prologin.patchesoft.com/test'>Full Page</option>
+                            <option value='http://prologin.patchesoft.com/funds'>Add Funds</option>
+                            <option value='http://prologin.patchesoft.com/funds/plans'>Premium Plans</option>
+                            <option value='http://prologin.patchesoft.com/test/restricted_admin'>Admin Page</option>
+                            <option value='http://prologin.patchesoft.com/test/restricted_group'>Group Page</option>
+                            <option value='http://prologin.patchesoft.com/test/restricted_user'>User Page</option>
+                            <option value='http://prologin.patchesoft.com/test/restricted_premium'>Premium Page</option>
+                        </select> 
+                    </div>
+
+                    <div class="white-area-content">
+                        <div class="db-header clearfix">
+                            <div class="page-header-title"> <span class="glyphicon glyphicon-user"></span> Admin Panel</div>
+                            <div class="db-header-extra form-inline">
+
+                                <div class="form-group has-feedback no-margin">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control input-sm" placeholder="Search ..." id="form-search-input" />
+                                        <div class="input-group-btn">
+                                            <input type="hidden" id="search_type" value="0">
+                                            <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                                            <ul class="dropdown-menu small-text" style="min-width: 90px !important; left: -90px;">
+                                                <li><a href="#" onclick="change_search(0)"><span class="glyphicon glyphicon-ok" id="search-like"></span> Like</a></li>
+                                                <li><a href="#" onclick="change_search(1)"><span class="glyphicon glyphicon-ok no-display" id="search-exact"></span> Exact</a></li>
+                                                <li><a href="#" onclick="change_search(2)"><span class="glyphicon glyphicon-ok no-display" id="user-exact"></span> User</a></li>
+                                                <li><a href="#" onclick="change_search(3)"><span class="glyphicon glyphicon-ok no-display" id="fn-exact"></span> First Name</a></li>
+                                                <li><a href="#" onclick="change_search(4)"><span class="glyphicon glyphicon-ok no-display" id="ln-exact"></span> Last Name</a></li>
+                                                <li><a href="#" onclick="change_search(5)"><span class="glyphicon glyphicon-ok no-display" id="role-exact"></span> User Role</a></li>
+                                                <li><a href="#" onclick="change_search(6)"><span class="glyphicon glyphicon-ok no-display" id="email-exact"></span> Email</a></li>
+                                            </ul>
+                                        </div><!-- /btn-group -->
+                                    </div>
+                                </div>
+
+                                <input type="button" class="btn btn-primary btn-sm" value="Add Member" data-toggle="modal" data-target="#memberModal" />
+                            </div>
+                        </div>
+
+                        <ol class="breadcrumb">
+                            <li><a href="http://prologin.patchesoft.com/">Home</a></li>
+                            <li><a href="http://prologin.patchesoft.com/admin">Admin Panel</a></li>
+                            <li class="active">Members</li>
+                        </ol>
+
+                        <p>Here you can manage the members of your site.</p>
+
+                        <div class="table-responsive">
+                            <table id="member-table" class="table table-striped table-hover table-bordered">
+                                <thead>
+                                    <tr class="table-header"><td>Username </td><td>First Name</td><td>Last Name</td><td>Email</td><td>User Role</td><td>Joined</td><td>Provider</td><td>Options</td></tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+                    <script type="text/javascript">
+                        $(document).ready(function () {
+
+                            var st = $('#search_type').val();
+                            var table = $('#member-table').DataTable({
+                                "dom": "<'row'<'col-sm-12'tr>>" +
+                                        "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+                                "processing": false,
+                                "pagingType": "full_numbers",
+                                "pageLength": 15,
+                                "serverSide": true,
+                                "orderMulti": false,
+                                "order": [
+                                    [5, "asc"]
+                                ],
+                                "columns": [
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    {"orderable": false}
+                                ],
+                                "ajax": {
+                                    url: "http://prologin.patchesoft.com/admin/members_page",
+                                    type: 'GET',
+                                    data: function (d) {
+                                        d.search_type = $('#search_type').val();
+                                    }
+                                },
+                                "drawCallback": function (settings, json) {
+                                    $('[data-toggle="tooltip"]').tooltip();
+                                }
+                            });
+                            $('#form-search-input').on('keyup change', function () {
+                                table.search(this.value).draw();
+                            });
+
+                        });
+                        function change_search(search)
+                        {
+                            var options = [
+                                "search-like",
+                                "search-exact",
+                                "user-exact",
+                                "fn-exact",
+                                "ln-exact",
+                                "role-exact",
+                                "email-exact"
+                            ];
+                            set_search_icon(options[search], options);
+                            $('#search_type').val(search);
+                            $("#form-search-input").trigger("change");
+                        }
+
+                        function set_search_icon(icon, options)
+                        {
+                            for (var i = 0; i < options.length; i++) {
+                                if (options[i] == icon) {
+                                    $('#' + icon).fadeIn(10);
+                                } else {
+                                    $('#' + options[i]).fadeOut(10);
+                                }
+                            }
+                        }
+                    </script>
+
+
+
+
+                    <div class="modal fade" id="memberModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title" id="myModalLabel">Add Member</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="http://prologin.patchesoft.com/admin/add_member_pro" class="form-horizontal" method="post" accept-charset="utf-8">
+                                        <input type="hidden" name="csrf_test_name" value="b5db6fa275e079982ca1f0f5a80a2cec" style="display:none;" />
+                                        <div class="form-group">
+                                            <label for="email-in" class="col-md-3 label-heading">Email</label>
+                                            <div class="col-md-9">
+                                                <input type="email" class="form-control" id="email-in" name="email">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+
+                                            <label for="username-in" class="col-md-3 label-heading">Username</label>
+                                            <div class="col-md-9">
+                                                <input type="text" class="form-control" id="username" name="username">
+                                                <div id="username_check"></div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+
+                                            <label for="password-in" class="col-md-3 label-heading">Password</label>
+                                            <div class="col-md-9">
+                                                <input type="password" class="form-control" id="password-in" name="password" value="">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+
+                                            <label for="cpassword-in" class="col-md-3 label-heading">Confirm Password</label>
+                                            <div class="col-md-9">
+                                                <input type="password" class="form-control" id="cpassword-in" name="password2" value="">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+
+                                            <label for="name-in" class="col-md-3 label-heading">First Name</label>
+                                            <div class="col-md-9">
+                                                <input type="text" class="form-control" id="name-in" name="first_name">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+
+                                            <label for="name-in" class="col-md-3 label-heading">Last Name</label>
+                                            <div class="col-md-9">
+                                                <input type="text" class="form-control" id="name-in" name="last_name">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+
+                                            <label for="name-in" class="col-md-3 label-heading">User Role</label>
+                                            <div class="col-md-9">
+                                                <select name="user_role" class="form-control">
+                                                    <option value="0" selected>None</option>
+                                                    <option value="1">Admin</option>
+                                                    <option value="2">Member Manager</option>
+                                                    <option value="3">Admin Settings</option>
+                                                    <option value="4">Admin Payments</option>
+                                                    <option value="0">Banned</option>
+                                                    <option value="0">Member</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                            <input type="submit" class="btn btn-primary" value="Submit" />
+                                        </div>
+                                    </form>   
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr>
+                    <p class="align-center small-text">Made By <a href="http://www.patchesoft.com/">Patchesoft</a><br /> ProLogin V1.5 - <a href="http://prologin.patchesoft.com/home/change_language">Change Language</a></p>
+
+                </div>
+            </div>
+        </div>
+
+
+    </body>
+</html>
