@@ -7,19 +7,17 @@ and open the template in the editor.
 
 
 
-   <div class="warning_box">
+<!--   <div class="warning_box">
       Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut.
-   </div>
+   </div>-->
    <div class="valid_box">
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut.
    </div>
    <div class="error_box">
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut.
    </div>
    <h1>Create New User</h1>
    <hr></hr>
    <div class="form">
-      <form action="" method="post" class="niceform">
+       <form action="abc.php" method="post" class="niceform" id="userForm">
          <fieldset>
              <dl>
                <dt><label for="name">Name* :</label></dt>
@@ -112,9 +110,8 @@ and open the template in the editor.
                </dd>
             </dl>
             <dl class="submit">
-               <input type="submit" name="submitButtom" id="submit" value="Submit" />
+               <input type="button" name="submitButtom" id="submit" value="Submit" onclick="validateForm(this.form);"/>
             </dl>
-             <input type="hidden" name="validationCheck" value="true" />
          </fieldset>
       </form>
    </div>

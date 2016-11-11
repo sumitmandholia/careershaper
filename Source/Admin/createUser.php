@@ -28,14 +28,18 @@
          	onopenclose:function(header, index, state, isuseractivated){ //custom code to run whenever a header is opened or closed
          		//do nothing
          	}
-         })
-      </script>
-     <?php 
-        
-     ?>
-      
+         });
+     </script>
+     
       <script type="text/javascript">
-          function 
+         var nameflag = false;
+         var testTypeFlag = true;
+         var unameFlag = false;
+         var passwordFlag = false;
+         var cPasswordFlag = false;
+         var email1Flag = false;
+         var phone1Flag = false;
+         
          function onclickUtype(utype){
              if(utype == 'A')
                 $(".testType").hide();  
@@ -55,25 +59,44 @@
                       valid = false;
                   } else if(!pattern.test(firstName) || !pattern.test(lastName) || !(middleName == "" || pattern.test(middleName))){
                         valid = false;
+                   } else{
+                       nameflag = true;
                    }
-              }else if(eleId == 'testType' || eleId == "uname" || eleId == "password"){
-                  if(eleVal == ""){
+                   
+              }else if(eleId === 'testType'){
+                  testTypeFlag = false;
+                  var utype = document.getElementById('userType').value;
+                  if(utype !== "A" && eleVal === ""){
                       valid = false;
+                  }else{
+                      testTypeFlag = true;
                   }
-              } else if(eleId == "cPassword"){
+              } else if(eleId === "uname" || eleId === "password"){
+                  if(eleVal === ""){
+                      valid = false;
+                  }else{
+                      unameFlag = passwordFlag = true;
+                  }
+              } else if(eleId === "cPassword"){
                   var password = document.getElementById('password').value;
-                  if(eleVal != password){
+                  if(eleVal !== password){
                       valid = false;
+                  }else{
+                      cPasswordFlag = true;
                   }
-              }else if(eleId == "email1"){
+              }else if(eleId === "email1"){
                   var emailRegEx =  /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
-                  if(eleVal == "" || !emailRegEx.test(eleVal)){
+                  if(eleVal === "" || !emailRegEx.test(eleVal)){
                       valid = false;
+                  }else{
+                      email1Flag = true;
                   }
-              }else if(eleId == "phone1"){
+              }else if(eleId === "phone1"){
                   var phoneRegEx = /[0-9]+/;
                    if(eleVal == "" || !phoneRegEx.test(eleVal)){
                       valid = false;
+                  }else{
+                      phone1Flag = true;
                   }
               }
               
@@ -85,6 +108,20 @@
                    $('#'+eleId+'_valid').hide();
                }
           }
+          
+          function validateForm(form){
+              
+            var validform = nameflag && testTypeFlag && unameFlag && passwordFlag && cPasswordFlag && email1Flag && phone1Flag;
+              if(!validform){
+                    $('.error_box').html("Please Enter All Mandatory Fields..");
+                    $('.error_box').show();
+              }else{
+                    $('.error_box').hide();  
+                    $('#userForm').submit();
+               }
+              
+              return validform;
+          }   
       </script>
       <!-- <script language="javascript" type="text/javascript" src="../../js/niceforms.js"></script> -->
       
