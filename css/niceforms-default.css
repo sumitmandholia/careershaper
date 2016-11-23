@@ -20,14 +20,7 @@ dl.submit {clear:both; width:500px; text-align:center; padding:0 0 0 90px;}
 dt {float:left; text-align:left; width:170px; line-height:34px; padding:0 10px 10px 0;}
 dd {float:left; width:400px; margin:0 0 10px 0;}
 
-.testType {
-    display: none;
-}
-.valid_ico {
-    display: none;
-    height: 20px;
-    width: 20px; 
-}
+
 label.check_label{
 padding:0 0 0 10px;
 line-height:32px;
@@ -102,3 +95,17 @@ line-height:32px;
 .NFhidden {opacity:0; z-index:-1; position:relative;}
 /*Safari*/
 select, input, textarea, button {outline:none; resize:none;}
+
+.testType {
+    display: none;
+}
+.valid_ico {
+    display: none;
+    height: 20px;
+    width: 20px; 
+}
+
+.uname_error {
+    display: none;
+    color: red;
+}
