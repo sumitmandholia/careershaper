@@ -1,4 +1,53 @@
 
+<?php
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
+
+    include_once '../../includes/db_connect.php';
+    include_once '../Login/login-functions.php';
+    
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $title = $_POST["title"];
+        $fName = $_POST["firstName"];
+        $mName = $_POST["middleName"];
+        $lName = $_POST["lastName"];
+        $userType = $_POST["userType"];
+        
+        //$testType = $_POST["testType"];
+        $userName = $_POST["uname"];
+        $password = $_POST["password"];
+        $email1 = $_POST["email1"];
+        $phone1 = $_POST["phone1"];
+        $phone1type = $_POST["phone1type"];
+        if($title === 'Mr.'){
+            $sex = 'M';
+        }   
+        else{
+            $sex = 'F';
+        }
+        $len = 8;
+        $cStrong = true;
+        $salt = bin2hex(openssl_random_pseudo_bytes($len, $cStrong));
+        $passwordHash = encryptPassword($password, $salt);
+        
+        $state = 1;
+        $phone2=NULL;
+        $phone2type=NULL;
+        $email2=NULL;
+        $updatedby="SYSTEM";
+        $stmt = $mysqli->prepare("CALL USER_REGISTRATION(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,@error_code,@error_msg)");
+        $stmt->bind_param("sisssssssssssssss",$userType,$state,$userName,$passwordHash,$salt,$title,$fName,$lName,
+                $mName,$sex,$phone1,$phone1type,$phone2,$phone2type,$email1,$email2,$updatedby);
+        
+        $stmt->execute();
+        $select = $mysqli->query('SELECT @error_code, @error_msg');
+        $result = $select->fetch_assoc();
+        $error_code = $result['@error_code'];
+        $error_msg = $result['@error_msg'];
+        $stmt->close();
+        }
+       ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
    <head>
@@ -46,6 +95,7 @@
              else
                  $(".testType").show();  
           }
+          
           function validateFields(eleId,eleVal){
               var valid = true;
               if(eleId == 'name'){
@@ -65,19 +115,33 @@
                    
               }else if(eleId === 'testType'){
                   testTypeFlag = false;
-                  var utype = document.getElementById('userType').value;
-                  if(utype !== "A" && eleVal === ""){
-                      valid = false;
+                  var utype = $("input:radio[name=userType]:checked").val();//$("#userType").selected;//document.getElementById('userType').value;
+                  if(utype !== "A"){
+                      var testTypes = [];
+                        $.each($("#testType option:selected"), function(){            
+                            testTypes.push($(this).val());
+                        });
+                        if(testTypes.length == 0){
+                            valid = false;
+                        }else{
+                            testTypeFlag = true;
+                        }
                   }else{
                       testTypeFlag = true;
                   }
-              } else if(eleId === "uname" || eleId === "password"){
+              } else if(eleId === "uname"){
                   if(eleVal === ""){
                       valid = false;
                   }else{
-                      unameFlag = passwordFlag = true;
+                      valid = checkLogonId(eleVal);
+                     }
+              } else if( eleId === "password"){
+                  if(eleVal === ""){
+                      valid = false;
+                  }else{
+                      passwordFlag = true;
                   }
-              } else if(eleId === "cPassword"){
+              }else if(eleId === "cPassword"){
                   var password = document.getElementById('password').value;
                   if(eleVal !== password){
                       valid = false;
@@ -104,24 +168,46 @@
                   $('#'+eleId+'_error').hide();
                   $('#'+eleId+'_valid').show();
               }else{
-                   $('#'+eleId+'_error').show();
-                   $('#'+eleId+'_valid').hide();
-               }
+                  $('#'+eleId+'_valid').hide();
+                  $('#'+eleId+'_error').show();
+                  }
           }
           
-          function validateForm(form){
+           function validateForm(){
               
             var validform = nameflag && testTypeFlag && unameFlag && passwordFlag && cPasswordFlag && email1Flag && phone1Flag;
               if(!validform){
                     $('.error_box').html("Please Enter All Mandatory Fields..");
                     $('.error_box').show();
               }else{
-                    $('.error_box').hide();  
+                    $('.error_box').hide(); 
                     $('#userForm').submit();
-               }
-              
-              return validform;
-          }   
+                   
+               } 
+            } 
+            
+            function checkLogonId(logonId){
+                returnVal = false;
+                $.ajax({
+                    url: "userAjaxMethods.php",
+                    type: "POST",
+                    data: {action: 'logonId', logonId: logonId},
+                    dataType: "json",
+                    success: function(data) {
+                        if(data.status == 'success'){
+                            returnVal = unameFlag = true;
+                            $('.uname_error').hide();
+                        } else{
+                            $('.uname_error').text(data.message);
+                            $('.uname_error').show();
+                        }
+                        
+                    }, error: function(x,e) {
+                      //  alert("Error");
+                    }
+              });
+              return returnVal;
+            }
       </script>
       <!-- <script language="javascript" type="text/javascript" src="../../js/niceforms.js"></script> -->
       

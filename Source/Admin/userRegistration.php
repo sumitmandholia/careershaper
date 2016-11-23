@@ -14,10 +14,30 @@ and open the template in the editor.
    </div>
    <div class="error_box">
    </div>
+<?php
+if(isset($error_code)){
+    if( $error_code != 0){
+        $err_msg = str_replace("'", "\'", $error_msg); 
+        //echo '<script>$(".error_box").text(\''.$err_msg.'\');$(".error_box").show();</script>';
+        echo '<script>';
+        echo '$(".error_box").text(\''.$err_msg.'\');';
+        echo '$(".error_box").show();';
+        echo '$(".valid_box").hide();';
+        echo '</script>';
+    } else {
+        echo '<script>';
+        echo '$(".valid_box").text(\'User  <b>'.$userName.'  </b>Created Sucessfully\');';
+        echo '$(".error_box").hide();';
+        echo '$(".valid_box").show();';
+        echo '</script>';
+        
+    }
+}
+ ?>
    <h1>Create New User</h1>
    <hr></hr>
    <div class="form">
-       <form action="abc.php" method="post" class="niceform" id="userForm">
+       <form action="<?php echo $_SERVER["PHP_SELF"];?>" method="post" class="niceform" id="userForm">
          <fieldset>
              <dl>
                <dt><label for="name">Name* :</label></dt>
@@ -38,7 +58,7 @@ and open the template in the editor.
             <dl>
                <dt><label for="color">Select User Type</label></dt>
                <dd>
-                   <input type="radio" name="userType" id="userType" value="A" onclick="onclickUtype('A');"/>Admin
+                   <input type="radio" name="userType" id="userType" value="A" onclick="onclickUtype('A');" checked/>Admin
                   <input type="radio" name="userType" id="userType" value="IU" onclick="onclickUtype('IU');"/>Internal User
                   <input type="radio" name="userType" id="userType" value="EU" onclick="onclickUtype('EU');"/>External User
                 </dd>
@@ -47,10 +67,10 @@ and open the template in the editor.
                  <dt><label for="testType">Select Test Type*:</label></dt>
                  <dd>
                      <select name="testType" id="testType" size="3" multiple="true" onblur="validateFields(this.id,this.value)">
-                         <option value="">test 1</option>
-                         <option value="">test 2</option>
-                         <option value="">test 3</option>
-                         <option value="">test 4</option>
+                         <option value="1">test 1</option>
+                         <option value="2">test 2</option>
+                         <option value="3">test 3</option>
+                         <option value="4">test 4</option>
                      </select>
                       <img src="../../images/valid.png" id="testType_valid" alt="" class='valid_ico'/>
                    <img src="../../images/error.png" id="testType_error" alt="" class='valid_ico'/>
@@ -62,7 +82,7 @@ and open the template in the editor.
                    <input type="text" name="uname" id="uname" placeholder="User Name" size="25" onblur="validateFields(this.id,this.value)"/>
                     <img src="../../images/valid.png" id="uname_valid" alt="" class='valid_ico'/>
                    <img src="../../images/error.png" id="uname_error" alt="" class='valid_ico'/>
-                   <input type="button" name="checkUName" id="checkUName" value="Check Availability" />
+                   <span class="uname_error"></span>
                </dd>
             </dl>
             <dl>
@@ -95,8 +115,8 @@ and open the template in the editor.
                      <input type="text" name="countryCode" id="countryCode" size="3" value="+91" disabled/>
                      <input type="text" name="phone1" id="phone1" placeholder="Primery Phone Number" size="20" maxlength="10" onblur="validateFields(this.id,this.value);"/>
                      <select name="phone1type" id="phone1type">
-                         <option value="M">Mobile</option>
-                         <option value="H">Home</option>
+                         <option value="Mobile">Mobile</option>
+                         <option value="Home">Home</option>
                      </select>
                       <img src="../../images/valid.png" id="phone1_valid" alt="" class='valid_ico'/>
                       <img src="../../images/error.png" id="phone1_error" alt="" class='valid_ico'/>
@@ -110,7 +130,7 @@ and open the template in the editor.
                </dd>
             </dl>
             <dl class="submit">
-               <input type="button" name="submitButtom" id="submit" value="Submit" onclick="validateForm(this.form);"/>
+               <input type="button" name="submitButtom" id="submitForm" value="Submit" onclick="validateForm();"/>
             </dl>
          </fieldset>
       </form>
