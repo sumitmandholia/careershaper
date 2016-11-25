@@ -7,7 +7,7 @@
  */
 
 include_once '../../includes/session-functions.php';
-sec_session_start();
+session_start();
  
 // Unset all session values 
 $_SESSION = array();

@@ -1,11 +1,17 @@
 
 <?php
+session_start();
+if(!isset($_SESSION['logonId'])){
+   header('Location: ../index.php');
+}
+include_once '../../includes/db_connect.php';
+include_once '../Login/login-functions.php';
+    
 header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
 
-    include_once '../../includes/db_connect.php';
-    include_once '../Login/login-functions.php';
+
     
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $title = $_POST["title"];
@@ -35,7 +41,7 @@ header("Pragma: no-cache");
         $phone2=NULL;
         $phone2type=NULL;
         $email2=NULL;
-        $updatedby="SYSTEM";
+        $updatedby=$_SESSION["logonId"];
         $stmt = $mysqli->prepare("CALL USER_REGISTRATION(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,@error_code,@error_msg)");
         $stmt->bind_param("sisssssssssssssss",$userType,$state,$userName,$passwordHash,$salt,$title,$fName,$lName,
                 $mName,$sex,$phone1,$phone1type,$phone2,$phone2type,$email1,$email2,$updatedby);
@@ -82,7 +88,6 @@ header("Pragma: no-cache");
      
       <script type="text/javascript">
          var nameflag = false;
-         var testTypeFlag = true;
          var unameFlag = false;
          var passwordFlag = false;
          var cPasswordFlag = false;
@@ -99,10 +104,10 @@ header("Pragma: no-cache");
           function validateFields(eleId,eleVal){
               var valid = true;
               if(eleId == 'name'){
-                  var title = document.getElementById('title').value;
-                  var firstName = document.getElementById('firstName').value;
-                  var middleName = document.getElementById('middleName').value;
-                  var lastName = document.getElementById('lastName').value;
+                  var title = $.trim(document.getElementById('title').value);
+                  var firstName = $.trim(document.getElementById('firstName').value);
+                  var middleName = $.trim(document.getElementById('middleName').value);
+                  var lastName = $.trim(document.getElementById('lastName').value);
                   
                   var pattern =/[a-zA-Z]+$/;
                   if(title == "" ||firstName == "" || lastName == "" ){
@@ -113,28 +118,6 @@ header("Pragma: no-cache");
                        nameflag = true;
                    }
                    
-              }else if(eleId === 'testType'){
-                  testTypeFlag = false;
-                  var utype = $("input:radio[name=userType]:checked").val();//$("#userType").selected;//document.getElementById('userType').value;
-                  if(utype !== "A"){
-                      var testTypes = [];
-                        $.each($("#testType option:selected"), function(){            
-                            testTypes.push($(this).val());
-                        });
-                        if(testTypes.length == 0){
-                            valid = false;
-                        }else{
-                            testTypeFlag = true;
-                        }
-                  }else{
-                      testTypeFlag = true;
-                  }
-              } else if(eleId === "uname"){
-                  if(eleVal === ""){
-                      valid = false;
-                  }else{
-                      valid = checkLogonId(eleVal);
-                     }
               } else if( eleId === "password"){
                   if(eleVal === ""){
                       valid = false;
@@ -175,7 +158,7 @@ header("Pragma: no-cache");
           
            function validateForm(){
               
-            var validform = nameflag && testTypeFlag && unameFlag && passwordFlag && cPasswordFlag && email1Flag && phone1Flag;
+            var validform = nameflag && unameFlag && passwordFlag && cPasswordFlag && email1Flag && phone1Flag;
               if(!validform){
                     $('.error_box').html("Please Enter All Mandatory Fields..");
                     $('.error_box').show();
@@ -186,27 +169,36 @@ header("Pragma: no-cache");
                } 
             } 
             
-            function checkLogonId(logonId){
-                returnVal = false;
-                $.ajax({
-                    url: "userAjaxMethods.php",
-                    type: "POST",
-                    data: {action: 'logonId', logonId: logonId},
-                    dataType: "json",
-                    success: function(data) {
-                        if(data.status == 'success'){
-                            returnVal = unameFlag = true;
-                            $('.uname_error').hide();
-                        } else{
-                            $('.uname_error').text(data.message);
-                            $('.uname_error').show();
+            function checkLogonId(eleId, logonId){
+                if($.trim(logonId) === "") {
+                    $('#'+eleId+'_valid').hide();
+                    $('#'+eleId+'_error').show();
+                } else {
+                    $.ajax({
+                        url: "userAjaxMethods.php",
+                        type: "POST",
+                        data: {action: 'logonId', logonId: $.trim(logonId)},
+                        dataType: "json",
+                        success: function(data) {
+                            if(data.status == 'success'){
+                                unameFlag = true;
+                                $('.uname_error').hide();
+                                $('#'+eleId+'_error').hide();
+                                $('#'+eleId+'_valid').show();
+                                $('.uname_error').hide();
+                            } else{
+                                $('#'+eleId+'_valid').hide();
+                                $('.uname_error').text(data.message);
+                                $('#'+eleId+'_error').show();
+                                $('.uname_error').show();
+                             }
+
+                        }, error: function(x,e) {
+                          $('.uname_error').text("UserId Check Service is Currently Down. Please Continue...");
+                           $('.uname_error').show();
                         }
-                        
-                    }, error: function(x,e) {
-                      //  alert("Error");
-                    }
-              });
-              return returnVal;
+                    });
+                }
             }
       </script>
       <!-- <script language="javascript" type="text/javascript" src="../../js/niceforms.js"></script> -->

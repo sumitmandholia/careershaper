@@ -20,17 +20,16 @@ if(isset($error_code)){
         $err_msg = str_replace("'", "\'", $error_msg); 
         //echo '<script>$(".error_box").text(\''.$err_msg.'\');$(".error_box").show();</script>';
         echo '<script>';
-        echo '$(".error_box").text(\''.$err_msg.'\');';
+        echo '$(".error_box").html(\''.$err_msg.'\');';
         echo '$(".error_box").show();';
         echo '$(".valid_box").hide();';
         echo '</script>';
     } else {
         echo '<script>';
-        echo '$(".valid_box").text(\'User  <b>'.$userName.'  </b>Created Sucessfully\');';
+        echo '$(".valid_box").html(\'User  <b>'.$userName.'  </b>Created Sucessfully\');';
         echo '$(".error_box").hide();';
         echo '$(".valid_box").show();';
         echo '</script>';
-        
     }
 }
  ?>
@@ -48,9 +47,9 @@ if(isset($error_code)){
                        <option value="Mrs.">Mrs.</option>
                        <option value="Miss.">Miss</option>
                    </select>
-                   <input type="text" name="firstName" id="firstName" placeholder="First" size="15" />
+                   <input type="text" name="firstName" id="firstName" placeholder="First" size="10" />
                    <input type="text" name="middleName" id="middleName" placeholder="Middle" size="7" />
-                   <input type="text" name="lastName" id="lastName" placeholder="Last" size="15" onblur="validateFields('name',this.value);"/>
+                   <input type="text" name="lastName" id="lastName" placeholder="Last" size="10" onblur="validateFields('name',this.value);"/>
                    <img src="../../images/valid.png" id="name_valid" alt="" class='valid_ico'/>
                    <img src="../../images/error.png" id="name_error" alt="" class='valid_ico'/>
                </dd>
@@ -58,31 +57,18 @@ if(isset($error_code)){
             <dl>
                <dt><label for="color">Select User Type</label></dt>
                <dd>
-                   <input type="radio" name="userType" id="userType" value="A" onclick="onclickUtype('A');" checked/>Admin
-                  <input type="radio" name="userType" id="userType" value="IU" onclick="onclickUtype('IU');"/>Internal User
-                  <input type="radio" name="userType" id="userType" value="EU" onclick="onclickUtype('EU');"/>External User
+                   <input type="radio" name="userType" id="userType" value="A" checked/>Admin
+                  <input type="radio" name="userType" id="userType" value="IU" />Internal User
+                  <input type="radio" name="userType" id="userType" value="EU" />External User
                 </dd>
             </dl>
-             <dl class="testType">
-                 <dt><label for="testType">Select Test Type*:</label></dt>
-                 <dd>
-                     <select name="testType" id="testType" size="3" multiple="true" onblur="validateFields(this.id,this.value)">
-                         <option value="1">test 1</option>
-                         <option value="2">test 2</option>
-                         <option value="3">test 3</option>
-                         <option value="4">test 4</option>
-                     </select>
-                      <img src="../../images/valid.png" id="testType_valid" alt="" class='valid_ico'/>
-                   <img src="../../images/error.png" id="testType_error" alt="" class='valid_ico'/>
-                 </dd>
-             </dl>
              <dl>
                <dt><label for="username">User Name*:</label></dt>
                <dd>
-                   <input type="text" name="uname" id="uname" placeholder="User Name" size="25" onblur="validateFields(this.id,this.value)"/>
+                   <input type="text" name="uname" id="uname" placeholder="User Name" size="25" onblur="checkLogonId(this.id,this.value)"/>
                     <img src="../../images/valid.png" id="uname_valid" alt="" class='valid_ico'/>
                    <img src="../../images/error.png" id="uname_error" alt="" class='valid_ico'/>
-                   <span class="uname_error"></span>
+                   <br><span class="uname_error"></span>
                </dd>
             </dl>
             <dl>
@@ -122,13 +108,6 @@ if(isset($error_code)){
                       <img src="../../images/error.png" id="phone1_error" alt="" class='valid_ico'/>
                  </dd>
              </dl>
-            
-            <dl>
-               <dt><label></label></dt>
-               <dd>
-                  <input type="checkbox" name="TnC" id="" value="" /><label class="check_label">I agree to the <a href="#">terms &amp; conditions</a></label>
-               </dd>
-            </dl>
             <dl class="submit">
                <input type="button" name="submitButtom" id="submitForm" value="Submit" onclick="validateForm();"/>
             </dl>

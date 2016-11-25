@@ -6,20 +6,22 @@
  * and open the template in the editor.
  */
 include_once '../../includes/psl-config.php';
+include_once '../../commonClass/Users.php';
 
 function login($logonId, $password, $mysqli) {
     // Using prepared statements means that SQL injection is not possible. 
+    $userObj = null;
     try{
-    $stmt = $mysqli->prepare("SELECT USERS_ID, LOGONID, LOGONPASSWORD, SALT 
-        FROM userregs WHERE LOGONID = ? LIMIT 1");
+    $stmt = $mysqli->prepare("SELECT USERS_ID, m.TYPE, LOGONID, LOGONPASSWORD, SALT 
+        FROM userregs ur join members m ON ur.users_id = m.member_id WHERE LOGONID = ? LIMIT 1");
         $stmt->bind_param('s', $logonId);  // Bind "$email" to parameter.
         $stmt->execute();    // Execute the prepared query.
         $stmt->store_result();
  
         // get variables from result.
-        $stmt->bind_result($user_id, $username, $db_password, $salt);
+        $stmt->bind_result($user_id, $uType, $logonId, $db_password, $salt);
         $stmt->fetch();
- 
+       
         if ($stmt->num_rows == 1) {
             // If the user exists we check if the account is locked
             // from too many login attempts 
@@ -36,18 +38,12 @@ function login($logonId, $password, $mysqli) {
                 if (encryptPassword($password, $salt) == $db_password) {
                     // Password is correct!
                     // Get the user-agent string of the user.
-                
-                    $user_browser = $_SERVER['HTTP_USER_AGENT'];
-                    // XSS protection as we might print this value
-                    $user_id = preg_replace("/[^0-9]+/", "", $user_id);
-                    $_SESSION['user_id'] = $user_id;
-                    // XSS protection as we might print this value
-                  //  $username = preg_replace("/[^a-zA-Z0-9_\-]+/", "",$username);
-                    $_SESSION['username'] = $username;
-                    $_SESSION['login_string'] = hash('sha512', 
-                              $db_password . $user_browser);
-                    // Login successful.
-                    return true;
+                     
+                    $userObj = new Users;
+                    $userObj->setUsers_id($user_id);
+                    $userObj->setLogon_Id($logonId);
+                    $userObj->setUsers_type($uType);
+                   
                 } else {
                     // Password is not correct
                     // We record this attempt in the database
@@ -65,17 +61,19 @@ function login($logonId, $password, $mysqli) {
                         echo 'error message   '. $ex->getMessage();
                     } */
                     
-                    return false;
                 }
             //}
         } else {
             // No user exists.
-            echo 'invalid userid';
-            return false;
+            
         }
     }catch(Exception $e){
         echo 'Caught exception: ',  $e->getMessage(), "\n";
+    } finally {
+        $stmt->close;
     }
+    
+    return $userObj;
 }
 
 function getSalt($len = 8){

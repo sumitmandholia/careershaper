@@ -9,20 +9,26 @@
 include_once '../../includes/db_connect.php';
 include_once '../../includes/session-functions.php';
 include_once 'login-functions.php';
-
+include_once '../../commonClass/Users.php';
  // Our custom secure way of starting a PHP session.
  
 if (isset($_POST['username'], $_POST['password'])) {
-    $userId = $_POST['username'];
+    $logonId = $_POST['username'];
     $password = $_POST['password']; 
     
-  if (login($userId, $password, $mysqli) == true) {
-        // Login success 
-       sec_session_start();
-       $_SESSION["userId"] = $userId;
-        header('Location: ../Admin/adminLanding.php');
+    $userObj = login($logonId, $password, $mysqli);
+  if ($userObj != null) {
+        // Login success
+        session_start();
+        $_SESSION['logonId'] = $userObj->getLogon_Id();
+        if($userObj->getUsers_type() == 'A'){
+            
+            header('Location: ../Admin/adminLanding.php');
+        } else {
+            header('Location: ../User/userLandingPage.php');
+        }
     } else {
-        echo 'invalid login';
+        header('Location: ../../index.php');
     } 
 } else {
     // The correct POST variables were not sent to this page. 
