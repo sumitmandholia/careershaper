@@ -92,7 +92,7 @@
    </div>
    <div class="pagination">
        <!-- Previous button -->
-       <?php if($currentPage === 1) { ?>
+       <?php if($currentPage == 1) { ?>
             <span class="disabled">&lt;&lt; prev</span>
        <?php } else { ?>
             <a href="javascript:gotoPage('<?php echo $currentPage-1 ?>');">&lt;&lt; prev</a>
