@@ -54,6 +54,18 @@ header("Pragma: no-cache");
                         }
                     });
          }
+         function gotoPage($pageNumber){
+              $.ajax({
+                        url: "userAjaxMethods.php",
+                        type: "POST",
+                        data: {action: 'pagination', currentPage: $pageNumber, pageSize: 5},
+                        dataType: "html",
+                        success: function(data) {
+                           $('.right_content').html('');
+                           $('.right_content').html(data);
+                        }
+                    });
+         }
       </script>
        <script type="text/javascript" src="../../js/jconfirmaction.jquery.js"></script>
    </head>

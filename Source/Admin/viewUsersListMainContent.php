@@ -26,6 +26,23 @@
         }
      $stmt->close();
      $typeArray = array("A" => "Admin", "IU" => "Internal", "EU" => "External");
+     $count = $myColl->length();
+     
+     // Pagination Logic
+     
+     if(!isset($currentPage, $pageSize)){
+         $currentPage = 1;
+          $pageSize = 5;
+     } 
+     
+     $totalPages = floor($count/$pageSize);
+     $totalPages += ($count%$pageSize) > 0 ? 1 : 0;
+     
+     
+     $startIndex = (($currentPage -1) * $pageSize);
+     $endIndex = $startIndex + $pageSize - 1;
+     $endIndex = $endIndex > ($count -1 ) ? ($count - 1) : $endIndex;
+     
    ?>
     <h2>Users List</h2>
    <table summary="user List" id="rounded-corner">
@@ -44,8 +61,8 @@
       <tbody>
          <?php 
             $key_arr = $myColl->keys();
-            foreach ($key_arr as $key) {
-                $userObj = $myColl->getItem($key);
+            for ($index = $startIndex; $index <=$endIndex; $index++ ) {
+                $userObj = $myColl->getItem($key_arr[$index]);
          ?> 
             <tr>
                 <td><input type="checkbox" id="<?php echo $userObj->getUsers_id() ?>"></td>
@@ -58,7 +75,7 @@
                <td>
                    <a class="ask" href="javascript:changeUserStatus('<?php echo $userObj->getUsers_id(); ?>','<?php echo $userObj->getStatus(); ?>');" id="status_<?php echo $userObj->getUsers_id()?>">
                        <?php if($userObj->getStatus() === 1): ?>
-                            <img class="status" border="0" title="" alt="enabled" src="../../images/enabled.png" tooltip="enabled">
+                       <img class="status" border="0" title="" alt="enabled" src="../../images/enabled.png" tooltip="enabled">
                        <?php else: ?>
                             <img class="status" border="0" title="" alt="disabled" src="../../images/disabled.png">
                        <?php endif; ?>
@@ -69,10 +86,32 @@
       </tbody>
    </table>
    <div class="footerButton">
-        <a class="bt_green" href="#"><span class="bt_green_lft"></span><strong>Add new item</strong><span class="bt_green_r"></span></a>
+       <a class="bt_green" href="createUser.php"><span class="bt_green_lft"></span><strong>Add new item</strong><span class="bt_green_r"></span></a>
         <a class="bt_blue" href="#"><span class="bt_blue_lft"></span><strong>View all items from category</strong><span class="bt_blue_r"></span></a>
         <a class="bt_red" href="#"><span class="bt_red_lft"></span><strong>Delete items</strong><span class="bt_red_r"></span></a> 
    </div>
    <div class="pagination">
-      <span class="disabled">&lt;&lt; prev</span><span class="current">1</span><a href="">2</a><a href="">3</a><a href="">4</a><a href="">5</a>…<a href="">10</a><a href="">11</a><a href="">12</a>...<a href="">100</a><a href="">101</a><a href="">next &gt;&gt;</a>
+       <!-- Previous button -->
+       <?php if($currentPage === 1) { ?>
+            <span class="disabled">&lt;&lt; prev</span>
+       <?php } else { ?>
+            <a href="javascript:gotoPage('<?php echo $currentPage-1 ?>');">&lt;&lt; prev</a>
+       <?php } ?>
+            
+        <!-- Page Numbers -->    
+      <?php for($index = 1; $index <= $totalPages; $index++ ) { 
+          if($index == $currentPage){ ?>
+             <span class="current"><?php echo $index ?></span> 
+          <?php } else { ?>
+              <a href="javascript:gotoPage('<?php echo $index ?>');"><?php echo $index ?></a>
+      <?php } 
+      }?>
+      
+      <!-- Next Page -->        
+      <?php if($currentPage == $totalPages) { ?>
+            <span class="disabled">next &gt;&gt;</span>
+       <?php } else { ?>
+            <a href="javascript:gotoPage('<?php echo $currentPage+1 ?>');">next &gt;&gt;</a>
+       <?php } ?>
+      
    </div>

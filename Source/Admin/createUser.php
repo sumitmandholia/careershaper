@@ -2,7 +2,7 @@
 <?php
 session_start();
 if(!isset($_SESSION['logonId'])){
-   header('Location: ../index.php');
+   header('Location: ../../index.php');
 }
 include_once '../../includes/db_connect.php';
 include_once '../Login/login-functions.php';

@@ -10,6 +10,8 @@ if($_POST['action'] == 'logonId'){
 } else if($_POST['action'] == 'changeUserStatus'){
     $newStatus = $_POST['currentStatus'] == 1 ? 0 : 1;
     changeUserStatus($_POST['userId'], $newStatus, $mysqli);
+} else if($_POST['action'] == 'pagination'){
+    gotoPage($_POST['currentPage'], $_POST['pageSize'], $mysqli);
 }
 /* 
  * To change this license header, choose License Headers in Project Properties.
@@ -46,14 +48,23 @@ function changeUserStatus($userId, $newStatus, $mysqli) {
         $stmt->execute();
       //  $response_array['status'] = 'success'; 
        // echo json_encode($response_array);
-         header('Content-type: application/json');
-       echo json_encode( include_once 'viewUsersListMainContent.php');
-        
+       //  header('Content-type: application/json');
+      // echo json_encode( include_once 'viewUsersListMainContent.php');
+        include_once 'viewUsersListMainContent.php';
         
     }catch(Exception $ex){
-         $response_array['status'] = 'failure'; 
-         header('Content-type: application/json');
-         echo json_encode($response_array);
+        
+    }
+    
+}
+
+function gotoPage($currentPage, $pageSize, $mysqli) {
+    
+    try{
+        include_once 'viewUsersListMainContent.php';
+        
+    }catch(Exception $ex){
+        
     }
     
 }
