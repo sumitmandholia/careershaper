@@ -1,14 +1,21 @@
 <?php
 session_start();
 if(!isset($_SESSION['logonId'])){
-   header('Location: ../index.php');
-} ?>
+   header('Location: ../../index.php');
+} 
+include_once '../../includes/db_connect.php';
+
+
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
+?>
 <html xmlns="http://www.w3.org/1999/xhtml">
    <head>
       <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-      <title>IN ADMIN PANEL | Powered by INDEZINER</title>
+      <title>Career Shapers | Powered by INDEZINER</title>
       <link rel="stylesheet" type="text/css" href="../../css/admin_style.css" />
-      <link rel="stylesheet" type="text/css" media="all" href="../../css/niceforms-default.css" />
+      
       <script type="text/javascript" src="../../js/jquery.min.js"></script>
       <script type="text/javascript" src="../../js/ddaccordion.js"></script>
       <script type="text/javascript">
@@ -33,7 +40,22 @@ if(!isset($_SESSION['logonId'])){
          	}
          });
      </script>
-      
+      <script type="text/javascript">
+         
+         function changeUserStatus(userId, currentStatus){
+             $.ajax({
+                        url: "userAjaxMethods.php",
+                        type: "POST",
+                        data: {action: 'changeUserStatus', userId: $.trim(userId),currentStatus: $.trim(currentStatus)},
+                        dataType: "html",
+                        success: function(data) {
+                           $('.right_content').html('');
+                           $('.right_content').html(data);
+                        }
+                    });
+         }
+      </script>
+       <script type="text/javascript" src="../../js/jconfirmaction.jquery.js"></script>
    </head>
    <body>
       <div id="main_container">

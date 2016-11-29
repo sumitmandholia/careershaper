@@ -7,6 +7,9 @@ include_once '../../includes/db_connect.php';
 
 if($_POST['action'] == 'logonId'){
     isLogonIdAvail($_POST['logonId'], $mysqli);
+} else if($_POST['action'] == 'changeUserStatus'){
+    $newStatus = $_POST['currentStatus'] == 1 ? 0 : 1;
+    changeUserStatus($_POST['userId'], $newStatus, $mysqli);
 }
 /* 
  * To change this license header, choose License Headers in Project Properties.
@@ -33,4 +36,24 @@ function isLogonIdAvail($logonId, $mysqli){
       echo json_encode($response_array);
       
       $stmt->close();
+}
+
+function changeUserStatus($userId, $newStatus, $mysqli) {
+    
+    try{
+        $stmt = $mysqli->prepare("Update userregs set status = ? WHERE users_id = ?");
+        $stmt->bind_param("ii",$newStatus,$userId);
+        $stmt->execute();
+      //  $response_array['status'] = 'success'; 
+       // echo json_encode($response_array);
+         header('Content-type: application/json');
+       echo json_encode( include_once 'viewUsersListMainContent.php');
+        
+        
+    }catch(Exception $ex){
+         $response_array['status'] = 'failure'; 
+         header('Content-type: application/json');
+         echo json_encode($response_array);
+    }
+    
 }

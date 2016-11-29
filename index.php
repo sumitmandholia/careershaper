@@ -4,6 +4,11 @@ To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<?php
+
+?>
+
 <html>
     <head>
         <meta charset="windows-1252">
@@ -19,15 +24,10 @@ and open the template in the editor.
         </div>
         <form action="Source/Login/login.php" method="post">
             <input type="text" name="username" placeholder="username" required>
-            <div class="bar">
-                    <i></i>
-            </div>
             <input type="password" name="password" placeholder="password" required>
             <a href="" class="forgot_link">forgot ?</a>
+            <span class="errorMsg"></span>
             <input type="submit" value="Sign In" />
         </form>
     </div>
-
-  <script src="js/index.js"></script>
-
 </html>

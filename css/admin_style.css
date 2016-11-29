@@ -520,6 +520,7 @@ a.forgot_pass {
 	width: 730px;
 	text-align: center;
 	border-collapse: initial;
+        font-size: 14px;
 }
 
 #rounded-corner thead th.rounded-company {
@@ -793,3 +794,7 @@ div.pagination span.disabled {
 	color: #ccc;
 }
 
+.status {
+    height: 21px;
+    width: 21px;
+}

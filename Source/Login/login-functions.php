@@ -7,35 +7,38 @@
  */
 include_once '../../includes/psl-config.php';
 include_once '../../commonClass/Users.php';
+include_once '../../includes/CareerShaperConstants.php';
 
 function login($logonId, $password, $mysqli) {
     // Using prepared statements means that SQL injection is not possible. 
-    $userObj = null;
+    $retVal = null;
     try{
-    $stmt = $mysqli->prepare("SELECT USERS_ID, m.TYPE, LOGONID, LOGONPASSWORD, SALT 
+    $stmt = $mysqli->prepare("SELECT USERS_ID, m.TYPE, LOGONID, LOGONPASSWORD, SALT, STATUS 
         FROM userregs ur join members m ON ur.users_id = m.member_id WHERE LOGONID = ? LIMIT 1");
         $stmt->bind_param('s', $logonId);  // Bind "$email" to parameter.
         $stmt->execute();    // Execute the prepared query.
         $stmt->store_result();
  
         // get variables from result.
-        $stmt->bind_result($user_id, $uType, $logonId, $db_password, $salt);
+        $stmt->bind_result($user_id, $uType, $logonId, $db_password, $salt, $status);
         $stmt->fetch();
-       
+        $msgObj = CustomMessage::Instance();
+        $msgObj->resetMessages();
+        
         if ($stmt->num_rows == 1) {
-            // If the user exists we check if the account is locked
-            // from too many login attempts 
- 
+            
            /* if (checkbrute($user_id, $mysqli) == true) {
                 // Account is locked 
                 // Send an email to user saying their account is locked
                 return false;
             } else { */
-                // Check if the password in the database matches
-                // the password the user submitted. We are using
-                // the password_verify function to avoid timing attacks.
                 
-                if (encryptPassword($password, $salt) == $db_password) {
+                if($status == 0){
+                    // Account is Disabled.
+                    
+                    $msgObj->setMessage(null, ERROR_LOGIN_DISABLED_USERNAME);
+                    $retVal = $msgObj;
+                } else if (encryptPassword($password, $salt) == $db_password) {
                     // Password is correct!
                     // Get the user-agent string of the user.
                      
@@ -43,7 +46,7 @@ function login($logonId, $password, $mysqli) {
                     $userObj->setUsers_id($user_id);
                     $userObj->setLogon_Id($logonId);
                     $userObj->setUsers_type($uType);
-                   
+                    $retVal = $userObj;
                 } else {
                     // Password is not correct
                     // We record this attempt in the database
@@ -53,27 +56,28 @@ function login($logonId, $password, $mysqli) {
 //echo $now->getTimestamp(); 
                     echo 'timestamp....'.$now;
                     try {
-                        $mysqli->prepare("UPDATE userreg SET PASSWORDINVALID = ".$now->getTimestamp() ." where USERS_ID = ".$user_id);
+                        $mysqli->prepare("UPDATE userregs SET PASSWORDINVALID = ".$now->getTimestamp() ." where USERS_ID = ".$user_id);
                         //mn $stmt->bind_param('s', $logonId);
                         $stmt->execute();
                         //echo $stmt->rowCount() . " records UPDATED successfully";
                     } catch (Exception $ex) {
                         echo 'error message   '. $ex->getMessage();
-                    } */
+                    } 
+                    */
                     
+                    $msgObj->setMessage(null, ERROR_INVALID_LOGIN_PASSWORD);
+                     $retVal = $msgObj;
                 }
             //}
         } else {
-            // No user exists.
-            
+            $msgObj->setMessage(null, ERROR_LOGIN_INVALID_USERNAME);
+            $retVal = $msgObj;
         }
     }catch(Exception $e){
         echo 'Caught exception: ',  $e->getMessage(), "\n";
-    } finally {
-        $stmt->close;
-    }
+    } 
     
-    return $userObj;
+    return $retVal;
 }
 
 function getSalt($len = 8){

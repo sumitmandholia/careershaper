@@ -33,21 +33,8 @@
          	onopenclose:function(header, index, state, isuseractivated){ //custom code to run whenever a header is opened or closed
          		//do nothing
          	}
-         })
-      </script>
-      <script type="text/javascript" src="../../js/jconfirmaction.jquery.js"></script>
-      <script type="text/javascript">
-         $(document).ready(function() {
-         	$('.ask').jConfirmAction();
-                
          });
-         function onclickUtype(utype){
-             if(utype == 'A')
-                $(".testType").hide();  
-             else
-                 $(".testType").show();  
-          }
-       
+         $("input[type=hidden]").prependTo("#autoplay-checkbox");
       </script>
       <!-- <script language="javascript" type="text/javascript" src="../../js/niceforms.js"></script> -->
       <link rel="stylesheet" type="text/css" media="all" href="../../css/niceforms-default.css" />

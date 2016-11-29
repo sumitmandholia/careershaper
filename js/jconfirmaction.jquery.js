@@ -15,9 +15,9 @@
 		// yesAnswer : a text for Yes answer.
 		// cancelAnswer : a text for Cancel/No answer.
 		var theOptions = jQuery.extend ({
-			question: "Are You Sure ?",
+			question: "Do you Want to Disable This User",
 			yesAnswer: "Yes",
-			cancelAnswer: "Cancel"
+			cancelAnswer: "No"
 		}, options);
 		
 		return this.each (function () {
@@ -26,7 +26,13 @@
 
 				e.preventDefault();
 				thisHref	= $(this).attr('href');
-				
+				thisStatus      = $(this).children("img").attr('alt');
+                                if(thisStatus === 'enabled'){
+                                    theOptions.question = "Do you Want to Disable This User?";
+                                } else {
+                                    theOptions.question = "Do you Want to Enable This User?";
+                                }
+                                
 				if($(this).next('.question').length <= 0)
 					$(this).after('<div class="question">'+theOptions.question+'<br/> <span class="yes">'+theOptions.yesAnswer+'</span><span class="cancel">'+theOptions.cancelAnswer+'</span></div>');
 				
@@ -34,6 +40,9 @@
 				
 				$('.yes').bind('click', function(){
 					window.location = thisHref;
+                                       $(this).parents('.question').fadeOut(300, function() {
+						$(this).remove();
+					});
 				});
 		
 				$('.cancel').bind('click', function(){
