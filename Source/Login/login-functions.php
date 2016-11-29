@@ -8,7 +8,7 @@
 include_once '../../includes/psl-config.php';
 include_once '../../commonClass/Users.php';
 include_once '../../includes/CareerShaperConstants.php';
-
+include_once '../../commonClass/CustomMessage.php';
 function login($logonId, $password, $mysqli) {
     // Using prepared statements means that SQL injection is not possible. 
     $retVal = null;
@@ -22,8 +22,6 @@ function login($logonId, $password, $mysqli) {
         // get variables from result.
         $stmt->bind_result($user_id, $uType, $logonId, $db_password, $salt, $status);
         $stmt->fetch();
-        $msgObj = CustomMessage::Instance();
-        $msgObj->resetMessages();
         
         if ($stmt->num_rows == 1) {
             
@@ -36,8 +34,6 @@ function login($logonId, $password, $mysqli) {
                 if($status == 0){
                     // Account is Disabled.
                     
-                    $msgObj->setMessage(null, ERROR_LOGIN_DISABLED_USERNAME);
-                    $retVal = $msgObj;
                 } else if (encryptPassword($password, $salt) == $db_password) {
                     // Password is correct!
                     // Get the user-agent string of the user.
@@ -70,9 +66,8 @@ function login($logonId, $password, $mysqli) {
                 }
             //}
         } else {
-            $msgObj->setMessage(null, ERROR_LOGIN_INVALID_USERNAME);
-            $retVal = $msgObj;
-        }
+                //Logon Id is not registered
+            }
     }catch(Exception $e){
         echo 'Caught exception: ',  $e->getMessage(), "\n";
     } 

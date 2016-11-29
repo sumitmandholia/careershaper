@@ -35,7 +35,7 @@ final class CustomMessage
         return $inst;
     }
 
-    public static function setMessage($key, $message){
+    public function setMessage($key, $message){
         if($key == NULL){
             $this->$msgArray[] = $message;
         } else {
