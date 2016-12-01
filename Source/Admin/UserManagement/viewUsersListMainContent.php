@@ -4,8 +4,9 @@
          });
 </script>
 <?php
-   include_once '../../commonClass/Users.php';
-    include_once '../../commonClass/MyCollection.php';
+    include_once '../../../includes/EnvironmentConstants.php';
+    include_once '../../../commonClass/Users.php';
+    include_once '../../../commonClass/MyCollection.php';
 
     $stmt = $mysqli->prepare("CALL GET_USERS_LIST(@error_code,@error_msg)");
     $stmt->execute();
@@ -43,6 +44,7 @@
      $endIndex = $startIndex + $pageSize - 1;
      $endIndex = $endIndex > ($count -1 ) ? ($count - 1) : $endIndex;
      
+     
    ?>
     <h2>Users List</h2>
    <table summary="user List" id="rounded-corner">
@@ -71,13 +73,13 @@
                 <td><?php echo $typeArray[$userObj->getUsers_type()] ?></td>
                 <td><?php echo $userObj->getPhone1() ?></td>
                 <td><?php echo $userObj->getEmail1() ?></td>
-               <td><a href="#"><img border="0" title="" alt="" src="../../images/user_edit.png"></a></td>
+               <td><a href="#"><img border="0" title="" alt="" src="<?php echo IMAGE_PATH."user_edit.png"?>"></a></td>
                <td>
                    <a class="ask" href="javascript:changeUserStatus('<?php echo $userObj->getUsers_id(); ?>','<?php echo $userObj->getStatus(); ?>');" id="status_<?php echo $userObj->getUsers_id()?>">
                        <?php if($userObj->getStatus() === 1): ?>
-                       <img class="status" border="0" title="" alt="enabled" src="../../images/enabled.png" tooltip="enabled">
+                       <img class="status" border="0" title="" alt="enabled" src="<?php echo IMAGE_PATH."enabled.png"?>" tooltip="enabled">
                        <?php else: ?>
-                            <img class="status" border="0" title="" alt="disabled" src="../../images/disabled.png">
+                            <img class="status" border="0" title="" alt="disabled" src="<?php echo IMAGE_PATH."disabled.png"?>">
                        <?php endif; ?>
                    </a>
                </td>

@@ -3,7 +3,7 @@ header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
 
-include_once '../../includes/db_connect.php';
+include_once '../../../includes/db_connect.php';
 
 if($_POST['action'] == 'logonId'){
     isLogonIdAvail($_POST['logonId'], $mysqli);
@@ -46,10 +46,7 @@ function changeUserStatus($userId, $newStatus, $mysqli) {
         $stmt = $mysqli->prepare("Update userregs set status = ? WHERE users_id = ?");
         $stmt->bind_param("ii",$newStatus,$userId);
         $stmt->execute();
-      //  $response_array['status'] = 'success'; 
-       // echo json_encode($response_array);
-       //  header('Content-type: application/json');
-      // echo json_encode( include_once 'viewUsersListMainContent.php');
+      
         include_once 'viewUsersListMainContent.php';
         
     }catch(Exception $ex){

@@ -50,8 +50,8 @@ if(isset($error_code)){
                    <input type="text" name="firstName" id="firstName" placeholder="First" size="10" />
                    <input type="text" name="middleName" id="middleName" placeholder="Middle" size="7" />
                    <input type="text" name="lastName" id="lastName" placeholder="Last" size="10" onblur="validateFields('name',this.value);"/>
-                   <img src="../../images/valid.png" id="name_valid" alt="" class='valid_ico'/>
-                   <img src="../../images/error.png" id="name_error" alt="" class='valid_ico'/>
+                   <img src="<?php echo IMAGE_PATH."valid.png"?>" id="name_valid" alt="" class='valid_ico'/>
+                   <img src="<?php echo IMAGE_PATH."error.png"?>" id="name_error" alt="" class='valid_ico'/>
                </dd>
             </dl>
             <dl>
@@ -66,8 +66,8 @@ if(isset($error_code)){
                <dt><label for="username">User Name*:</label></dt>
                <dd>
                    <input type="text" name="uname" id="uname" placeholder="User Name" size="25" onblur="checkLogonId(this.id,this.value)"/>
-                    <img src="../../images/valid.png" id="uname_valid" alt="" class='valid_ico'/>
-                   <img src="../../images/error.png" id="uname_error" alt="" class='valid_ico'/>
+                    <img src="<?php echo IMAGE_PATH."valid.png"?>" id="uname_valid" alt="" class='valid_ico'/>
+                   <img src="<?php echo IMAGE_PATH."error.png"?>" id="uname_error" alt="" class='valid_ico'/>
                    <br><span class="uname_error"></span>
                </dd>
             </dl>
@@ -75,24 +75,24 @@ if(isset($error_code)){
                <dt><label for="password">Password*:</label></dt>
                <dd>
                    <input type="password" name="password" id="password" placeholder="Password" size="25" onblur="validateFields(this.id,this.value);"/>
-                    <img src="../../images/valid.png" id="password_valid" alt="" class='valid_ico'/>
-                   <img src="../../images/error.png" id="password_error" alt="" class='valid_ico'/>
+                    <img src="<?php echo IMAGE_PATH."valid.png"?>" id="password_valid" alt="" class='valid_ico'/>
+                   <img src="<?php echo IMAGE_PATH."error.png"?>" id="password_error" alt="" class='valid_ico'/>
                </dd>
             </dl>
             <dl>
                <dt><label for="confirmPassword">Confirm Password*:</label></dt>
                <dd>
                    <input type="password" name="cPassword" id="cPassword" placeholder="Re-Enter Password" size="25" onblur="validateFields(this.id,this.value);"/>
-                   <img src="../../images/valid.png" id="cPassword_valid" alt="" class='valid_ico'/>
-                   <img src="../../images/error.png" id="cPassword_error" alt="" class='valid_ico'/>
+                   <img src="<?php echo IMAGE_PATH."valid.png"?>" id="cPassword_valid" alt="" class='valid_ico'/>
+                   <img src="<?php echo IMAGE_PATH."error.png"?>" id="cPassword_error" alt="" class='valid_ico'/>
                </dd>
             </dl>
             <dl>
                <dt><label for="email">Email Address*:</label></dt>
                <dd>
                    <input type="text" name="email1" id="email1" placeholder="Primary Email-Id" size="25" onblur="validateFields(this.id,this.value);"/>
-                   <img src="../../images/valid.png" id="email1_valid" alt="" class='valid_ico'/>
-                   <img src="../../images/error.png" id="email1_error" alt="" class='valid_ico'/>
+                   <img src="<?php echo IMAGE_PATH."valid.png"?>" id="email1_valid" alt="" class='valid_ico'/>
+                   <img src="<?php echo IMAGE_PATH."error.png"?>" id="email1_error" alt="" class='valid_ico'/>
                </dd>
             </dl>
              <dl>
@@ -104,8 +104,8 @@ if(isset($error_code)){
                          <option value="Mobile">Mobile</option>
                          <option value="Home">Home</option>
                      </select>
-                      <img src="../../images/valid.png" id="phone1_valid" alt="" class='valid_ico'/>
-                      <img src="../../images/error.png" id="phone1_error" alt="" class='valid_ico'/>
+                      <img src="<?php echo IMAGE_PATH."valid.png"?>" id="phone1_valid" alt="" class='valid_ico'/>
+                      <img src="<?php echo IMAGE_PATH."error.png"?>" id="phone1_error" alt="" class='valid_ico'/>
                  </dd>
              </dl>
             <dl class="submit">

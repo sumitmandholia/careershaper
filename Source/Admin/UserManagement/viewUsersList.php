@@ -1,9 +1,7 @@
 <?php
-session_start();
-if(!isset($_SESSION['logonId'])){
-   header('Location: ../../index.php');
-} 
-include_once '../../includes/db_connect.php';
+include_once '../../../includes/EnvironmentConstants.php';
+include_once '../../../includes/session.php';
+include_once '../../../includes/db_connect.php';
 
 
 header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
@@ -11,13 +9,13 @@ header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml">
-   <head>
+    <head>
       <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-      <title>Career Shapers | Powered by INDEZINER</title>
-      <link rel="stylesheet" type="text/css" href="../../css/admin_style.css" />
+      <title>Career Shaper | Powered by INDEZINER</title>
+      <link rel="stylesheet" type="text/css" href="<?php echo CSS_PATH."admin_style.css"?>" />
       
-      <script type="text/javascript" src="../../js/jquery.min.js"></script>
-      <script type="text/javascript" src="../../js/ddaccordion.js"></script>
+      <script type="text/javascript" src="<?php echo JS_PATH."jquery.min.js"?>"></script>
+      <script type="text/javascript" src="<?php echo JS_PATH."ddaccordion.js"?>"></script>
       <script type="text/javascript">
          ddaccordion.init({
          	headerclass: "submenuheader", //Shared CSS class name of headers group
@@ -30,7 +28,7 @@ header("Pragma: no-cache");
          	animatedefault: false, //Should contents open by default be animated into view?
          	persiststate: true, //persist state of opened contents within browser session?
          	toggleclass: ["", ""], //Two CSS classes to be applied to the header when it's collapsed and expanded, respectively ["class1", "class2"]
-         	togglehtml: ["suffix", "<img src='../../images/plus.gif' class='statusicon' />", "<img src='../../images/minus.gif' class='statusicon' />"], //Additional HTML added to the header when it's collapsed and expanded, respectively  ["position", "html1", "html2"] (see docs)
+         	togglehtml: ["suffix", "<img src='<?php echo IMAGE_PATH.'plus.gif'?>' class='statusicon' />", "<img src='<?php echo IMAGE_PATH.'minus.gif'?>' class='statusicon' />"], //Additional HTML added to the header when it's collapsed and expanded, respectively  ["position", "html1", "html2"] (see docs)
          	animatespeed: "fast", //speed of animation: integer in milliseconds (ie: 200), or keywords "fast", "normal", or "slow"
          	oninit:function(headers, expandedindices){ //custom code to run when headers have initalized
          		//do nothing
@@ -40,6 +38,7 @@ header("Pragma: no-cache");
          	}
          });
      </script>
+   
       <script type="text/javascript">
          
          function changeUserStatus(userId, currentStatus){
@@ -67,16 +66,16 @@ header("Pragma: no-cache");
                     });
          }
       </script>
-       <script type="text/javascript" src="../../js/jconfirmaction.jquery.js"></script>
+       <script type="text/javascript" src="<?php echo JS_PATH."jconfirmaction.jquery.js"?>"></script>
    </head>
    <body>
       <div id="main_container">
          
-          <?php include 'adminHeader.php'; ?>
+          <?php include '../adminHeader.php'; ?>
           
          <div class="main_content">
             <div class="center_content">
-               <?php include 'adminLeftMenuBar.php'; ?>
+               <?php include '../adminLeftMenuBar.php'; ?>
                              
                <div class="right_content">
                  <?php 
@@ -91,7 +90,7 @@ header("Pragma: no-cache");
          <!--end of main content-->
          <div class="footer">
             <div class="left_footer">IN ADMIN PANEL | Powered by <a href="http://indeziner.com">INDEZINER</a></div>
-            <div class="right_footer"><a href="http://indeziner.com"><img src="../../images/indeziner_logo.gif" alt="" title="" border="0" /></a></div>
+            <div class="right_footer"><a href="http://indeziner.com"><img src="<?php echo IMAGE_PATH."indeziner_logo.gif"?>" alt="" title="" border="0" /></a></div>
          </div>
       </div>
    </body>

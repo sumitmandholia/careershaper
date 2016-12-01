@@ -5,9 +5,9 @@
       <a class="menuitem submenuheader" href="">User Management</a>
       <div class="submenu">
          <ul>
-             <li><a href="viewUsersList.php">View Users</a></li>
+            <li><a href="<?php echo USERS_DIR."viewUsersList.php"?>">View Users</a></li>
             <li><a href="">Search User</a></li>
-            <li><a href="createUser.php">Create New User</a></li>
+            <li><a href="<?php echo USERS_DIR."createUser.php"?>">Create New User</a></li>
             <li><a href="">Sidebar submenu</a></li>
             <li><a href="">Sidebar submenu</a></li>
          </ul>

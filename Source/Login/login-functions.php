@@ -8,7 +8,7 @@
 include_once '../../includes/psl-config.php';
 include_once '../../commonClass/Users.php';
 include_once '../../includes/CareerShaperConstants.php';
-include_once '../../commonClass/CustomMessage.php';
+
 function login($logonId, $password, $mysqli) {
     // Using prepared statements means that SQL injection is not possible. 
     $retVal = null;
